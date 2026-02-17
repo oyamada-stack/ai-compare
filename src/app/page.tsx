@@ -25,7 +25,7 @@ interface HistoryItem {
 const AI_CONFIGS = [
   { id: "chatgpt", name: "ChatGPT", model: "gpt-4o", color: "from-green-500 to-emerald-600" },
   { id: "claude", name: "Claude", model: "claude-sonnet-4-20250514", color: "from-orange-500 to-amber-600" },
-  { id: "zari", name: "Zari", model: "claude-sonnet-4-20250514", color: "from-purple-500 to-violet-600" },
+  { id: "zari", name: "Zari", model: "OpenClaw (Slack連携)", color: "from-purple-500 to-violet-600" },
 ];
 
 export default function Home() {
@@ -33,7 +33,7 @@ export default function Home() {
   const [responses, setResponses] = useState<Record<string, AIResponse>>({
     chatgpt: { model: "gpt-4o", content: "", loading: false },
     claude: { model: "claude-sonnet-4-20250514", content: "", loading: false },
-    zari: { model: "claude-sonnet-4-20250514", content: "", loading: false },
+    zari: { model: "OpenClaw (Slack連携)", content: "", loading: false },
   });
   const [isAsking, setIsAsking] = useState(false);
 
@@ -82,6 +82,18 @@ export default function Home() {
     });
 
     const results = await Promise.all(promises);
+    
+    // Send all results to Slack (best effort, don't await)
+    const slackResponses = {
+      chatgpt: results.find(r => r.id === "chatgpt"),
+      claude: results.find(r => r.id === "claude"),
+      zari: results.find(r => r.id === "zari"),
+    };
+    fetch("/api/ask", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ai: "slack_notify", question, allResponses: slackResponses }),
+    }).catch(console.error);
     
     // Save to history
     const historyItem: HistoryItem = {
