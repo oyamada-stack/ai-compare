@@ -20,6 +20,7 @@ export function middleware(request: NextRequest) {
     status: 401,
     headers: {
       "WWW-Authenticate": 'Basic realm="AI Compare"',
+      "Cache-Control": "no-store, max-age=0",
     },
   });
 }
