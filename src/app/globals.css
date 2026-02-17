@@ -1,0 +1,52 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-color: #0f172a;
+  color: #e2e8f0;
+}
+
+.markdown-content h1 {
+  @apply text-xl font-bold mb-2;
+}
+
+.markdown-content h2 {
+  @apply text-lg font-semibold mb-2;
+}
+
+.markdown-content h3 {
+  @apply text-base font-semibold mb-1;
+}
+
+.markdown-content p {
+  @apply mb-2;
+}
+
+.markdown-content ul, .markdown-content ol {
+  @apply ml-4 mb-2;
+}
+
+.markdown-content li {
+  @apply mb-1;
+}
+
+.markdown-content code {
+  @apply bg-gray-800 px-1 py-0.5 rounded text-sm;
+}
+
+.markdown-content pre {
+  @apply bg-gray-800 p-3 rounded-lg overflow-x-auto mb-3;
+}
+
+.markdown-content pre code {
+  @apply bg-transparent p-0;
+}
+
+.markdown-content blockquote {
+  @apply border-l-4 border-gray-600 pl-4 italic my-2;
+}
+
+.markdown-content a {
+  @apply text-blue-400 hover:underline;
+}
